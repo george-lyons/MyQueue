@@ -2,14 +2,13 @@ package mine;
 
 /**
  * Created by georgelyons
- *
+ * <p>
  * Queue: line ordered by how items inserted
- *
+ * <p>
  * enQueue/deQueue O(1)
  * search/access O(N)
- *
+ * <p>
  * Queue: FIFO
- *
  */
 public class QueueMine {
     private Integer[] data;
@@ -29,13 +28,16 @@ public class QueueMine {
     }
 
 
+    /*
+    O(1)
+    */
     public void enQueue(Integer value) {
         //resize if end is larger than previous
-        if((end + 1) >= data.length) {
+        if ((end + 1) >= data.length) {
             resizeDouble();
         }
 
-        if(size() == 0) {
+        if (size() == 0) {
             front++;
             end++;
             data[end] = value;
@@ -46,19 +48,24 @@ public class QueueMine {
 
     }
 
+    /*
+    O(1)
+     */
     public Integer deQueue() {
-        if(size() == 0) {
+        if (size() == 0) {
             //nothing in queue
             return null;
         }
         Integer val;
-        if(front == end) {
+        if (front == end) {
             val = data[front];
+            data[front] = null;
             //reset
             front = -1;
             end = -1;
         } else {
             val = data[front];
+            data[front] = null;
             front++;
         }
         return val;
@@ -66,11 +73,44 @@ public class QueueMine {
 
 
     public int size() {
-        if(end == -1 && front == -1) {
+        if (end == -1 && front == -1) {
             return 0;
         } else {
             return end - front + 1;
         }
+    }
+
+    /*
+    O(N)
+    */
+    public boolean contains(Integer val) {
+        if(size() == 0) {
+            return false;
+        }
+        for (int i = front; i <= end; i ++) {
+            if(data[i].equals(val)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /*
+    O(N)
+     */
+    public Integer access(int index) {
+        if(index > size() || size() == 0) {
+            return null;
+        }
+        int actualIndex = 0;
+        for (int i = front; i <= end; i ++) {
+            if(actualIndex == index) {
+                return data[i];
+            }
+            actualIndex++;
+        }
+        return null;
     }
 
 
@@ -87,8 +127,6 @@ public class QueueMine {
         }
         System.out.println("Resized queue as larger than array size double from " + temp.length + " to " + data.length);
     }
-
-
 
 
 }

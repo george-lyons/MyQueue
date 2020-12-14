@@ -16,6 +16,9 @@ public class QueueMineTest {
         queue.enQueue(one);
         queue.enQueue(two);
 
+        Assert.assertTrue(queue.contains(one));
+        Assert.assertTrue(queue.contains(two));
+
         Integer deQueue = queue.deQueue();
         Assert.assertEquals(one, deQueue);
 
@@ -26,11 +29,15 @@ public class QueueMineTest {
     @Test
     public void queueAndResize() {
         QueueMine queue = new QueueMine(10);
-        for (int i = 0; i < 1000000; i++) {
+        for (int i = 0; i < 10000; i++) {
             queue.enQueue(i);
         }
 
-        for (int i = 0; i < 1000000; i++) {
+        //check the access
+        Assert.assertEquals(10, queue.access(10), 0.0001);
+        Assert.assertEquals(999, queue.access(999), 0.0001);
+
+        for (int i = 0; i < 10000; i++) {
             Assert.assertEquals(i, queue.deQueue(), 0.0001);
         }
 
